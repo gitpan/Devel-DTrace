@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use ExtUtils::Embed;
 use Config;
 
 require 5.006;
@@ -27,10 +28,12 @@ my %args = (
     ABSTRACT_FROM => 'lib/Devel/DTrace.pm',
     PL_FILES      => {},
     PREREQ_PM     => { 'Test::More' => 0, },
+    OBJECT        => 'runops.o DTrace.o',
+    EXE_FILES     => ['dtperl'],
 
     dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean  => { FILES      => 'Devel-DTrace-* pldtrace.h' },
-    depend => { 'DTrace.o' => 'pldtrace.h' },
+    clean  => { FILES      => 'Devel-DTrace-* pldtrace.h *.o dtperl' },
+    depend => { 'runops.o' => 'pldtrace.h' },
 );
 
 if ( $Config{'ccname'} =~ /gcc/ ) {
@@ -40,6 +43,25 @@ if ( $Config{'ccname'} =~ /gcc/ ) {
 WriteMakefile( %args );
 
 sub MY::postamble {
-    return "pldtrace.h: pldtrace.d\n"
-      . "\t$dtrace -h -s pldtrace.d -o pldtrace.h\n\n";
+    my $postamble = do { local $/; <DATA> };
+
+    my %defn = (
+        dtrace => $dtrace,
+        ccopts => ccopts(),
+        ldopts => ldopts()
+    );
+
+    chomp for values %defn;
+
+    $postamble =~ s/^ +/\t/mg;
+    $postamble =~ s/(%(\w+)%)/$defn{$2}||$1/ge;
+
+    return $postamble;
 }
+
+__DATA__
+pldtrace.h: pldtrace.d
+    %dtrace% -h -s pldtrace.d -o pldtrace.h
+
+dtperl: dtperl.o runops.o
+    $(CC) %ccopts% -o dtperl %ldopts% dtperl.o runops.o
