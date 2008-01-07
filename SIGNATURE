@@ -14,26 +14,31 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 69f4405025a7f972b4bedcbc9fa7857130f074bf Changes
+SHA1 35608a53dc4d271e5c995ebdda81b4e8a7e9a283 Changes
 SHA1 d514f33e77ab80e745a0a0b0804175bd5ee8e6fd DTrace.xs
-SHA1 62407f344a0a61ec90d0c24c32c29c2997ef405f MANIFEST
-SHA1 aa68a1e8fb7dfc198b1a2ee40a73aec0eeba8084 META.yml
-SHA1 2f4c2e0537b9d992ae0f1eb41ad46d2c1b905df7 Makefile.PL
-SHA1 cbbbfb79a3e0f4d264c70e4fe9c61277b935ed66 README
+SHA1 411b5e5e735462ff4a89ae74ea15d2b11e8706d1 MANIFEST
+SHA1 7e4c345e6351ef213506ce5a01205e07907bd814 META.yml
+SHA1 9097c2951b629561f25d01f18853f0f619fedc3c Makefile.PL
+SHA1 cd4075fb7fa6d34cbdc7bec3029cb53c3d16f09d README
 SHA1 b2f5809a83ea92c5e6cd7bb569d8443cd474d3da TODO
-SHA1 6d0eb8f8691c8eac4d09ce3c2192b3965e924020 dtperl.c
+SHA1 cd6c6cf2b770cc086f6b9bbab7d58ea517bb5b5d dtperl.c
 SHA1 2bae70f589759f9a669ded418eeaa92093ef8821 examples/subs-tree.d
-SHA1 cf9f1e919453cc4a1ef7415bfc7a17c2f69b6846 lib/Devel/DTrace.pm
+SHA1 7f240e3b002dd56e82c940beb23018425bac7cc5 lib/Devel/DTrace.pm
 SHA1 3688b6fa22829d2ef14871defd0053eb6eb2a387 plxsdtrace.d
-SHA1 edbda77e4e2754c6f357833162d5ae968396e689 runops.c
-SHA1 da58cccbab069adba7dda1945b318e7933c38682 runops.h
+SHA1 ac9fdaaa9eeb59009496ad15ddd95b7b3d757594 runops-loop.h
+SHA1 09f493b8686d24b8fff99a2f0939f967d85d6239 runops.c
+SHA1 ff865ff9de63d75121c83a5576a0aff7f0e602e7 runops.h
 SHA1 1ed5cd8c96a7ffe7a6eead78edfe1e021b169063 t/000-load.t
+SHA1 29a92e5eed4f507b30c1a05364938f9fcc550aaf t/devel-dtrace.t
+SHA1 6562793ffeeacf3d21d5888c177743298b3b0b90 t/scripts/eval.pl
+SHA1 cb172cdba380aa345e5bd0ea9ea1ce99d5c20167 t/scripts/fib.pl
+SHA1 53aa38fbd0961d6b293ff696542e1e04865cda08 t/scripts/fump.pl
 SHA1 c513d4aca0ee487340cd4bdb6296ef0db183505a xt/author/pod-coverage.t
 SHA1 0190346d7072d458c8a10a45c19f86db641dcc48 xt/author/pod.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.7 (Darwin)
 
-iD8DBQFHgkhQwoknRJZQnCERAguWAJ0SlqoOLnHQDW4c/dLhCEBE2POLqgCglauH
-/no9mAfvap+Gx4Uh1rWH5Lk=
-=VBsi
+iD8DBQFHgp7DwoknRJZQnCERAnl3AKDI6Ic5Q6Lxj5WNttpx3MH5jIR3WgCglnyF
+hl+tINEQq2ZtXwsXRr9HBuI=
+=souo
 -----END PGP SIGNATURE-----

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Devel-DTrace
-version:             0.04
+version:             0.05
 abstract:            Enable dtrace probes for subroutine entry, exit
 license:             perl
 author:              
@@ -8,6 +8,7 @@ author:
 generated_by:        ExtUtils::MakeMaker version 6.42
 distribution_type:   module
 requires:     
+    Test::Differences:             0
     Test::More:                    0
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.3.html
