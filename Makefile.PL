@@ -32,13 +32,13 @@ my %args = (
     EXE_FILES     => ['dtperl'],
 
     dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean  => { FILES      => 'Devel-DTrace-* pldtrace.h *.o dtperl' },
-    depend => { 'runops.o' => 'pldtrace.h' },
+    clean  => { FILES      => 'Devel-DTrace-* plxsdtrace.h *.o dtperl' },
+    depend => { 'runops.o' => 'plxsdtrace.h' },
 );
 
-if ( $Config{'ccname'} =~ /gcc/ ) {
-    $args{CCFLAGS} = '-Wall';
-}
+# if ( $Config{'ccname'} =~ /gcc/ ) {
+#     $args{CCFLAGS} = '-Wall';
+# }
 
 WriteMakefile( %args );
 
@@ -53,15 +53,17 @@ sub MY::postamble {
 
     chomp for values %defn;
 
-    $postamble =~ s/^ +/\t/mg;
-    $postamble =~ s/(%(\w+)%)/$defn{$2}||$1/ge;
+    for ( $postamble ) {
+        s/^ +/\t/mg;
+        s/(%(\w+)%)/$defn{$2}||$1/ge;
+    }
 
     return $postamble;
 }
 
 __DATA__
-pldtrace.h: pldtrace.d
-    %dtrace% -h -s pldtrace.d -o pldtrace.h
+plxsdtrace.h: plxsdtrace.d
+    %dtrace% -h -s plxsdtrace.d -o plxsdtrace.h
 
 dtperl: dtperl.o runops.o
     $(CC) %ccopts% -o dtperl %ldopts% dtperl.o runops.o

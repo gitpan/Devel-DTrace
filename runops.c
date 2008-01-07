@@ -2,12 +2,11 @@
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-#include "pldtrace.h"
+#include "plxsdtrace.h"
 #include "runops.h"
 
 STATIC CV *
 _curcv( pTHX_ I32 ix ) {
-    dVAR;
     for ( ; ix > 0; ix-- ) {
         const PERL_CONTEXT *const cx = &cxstack[ix];
         if ( CxTYPE( cx ) == CXt_SUB || CxTYPE( cx ) == CXt_FORMAT )
@@ -22,7 +21,7 @@ _curcv( pTHX_ I32 ix ) {
 }
 
 STATIC char *
-_sub_name( void ) {
+_sub_name( pTHX ) {
     const CV *const cv = _curcv( aTHX_ cxstack_ix );
     if ( cv ) {
         const GV *const gv = CvGV( cv );
@@ -45,7 +44,7 @@ _runops_dtrace( pTHX ) {
 
         if ( last_op && last_op->op_type == OP_ENTERSUB ) {
             /* last OP was OP_ENTERSUB so we're inside the sub now */
-            last_func = _sub_name(  );
+            last_func = _sub_name( aTHX );
             PERLXS_SUB_ENTRY( ( char * ) last_func,
                               CopFILE( PL_curcop ), CopLINE( PL_curcop ) );
         }
@@ -54,7 +53,7 @@ _runops_dtrace( pTHX ) {
             PERLXS_SUB_RETURN( ( char * ) last_func,
                                CopFILE( PL_curcop ),
                                CopLINE( PL_curcop ) );
-            last_func = _sub_name(  );
+            last_func = _sub_name( aTHX );
         }
 
         last_op = PL_op;
