@@ -6,6 +6,12 @@ use Config;
 
 require 5.008;
 
+use constant IS_SOLARIS => ( $^O =~ /solaris/ );
+
+# Whether we need to have dtrace create an object file and link
+# against it.
+use constant DTRACE_OBJ => IS_SOLARIS;
+
 my @dtrace = qw(
   /usr/sbin/dtrace
 );
@@ -18,6 +24,7 @@ sub find_bin {
 }
 
 my $dtrace = find_bin( @dtrace );
+
 unless ( $dtrace ) {
     warn "Can't find dtrace executable. "
       . "I looked in the following places:\n";
@@ -25,6 +32,8 @@ unless ( $dtrace ) {
     warn "Can't continue.\n";
     exit 0;    # == NA test result
 }
+
+my @obj = ( 'runops.o', ( DTRACE_OBJ ? ( 'plxsdtrace.o' ) : () ) );
 
 my %args = (
     ( MM->can( 'signature_target' ) ? ( SIGN => 1 ) : () ),
@@ -39,7 +48,7 @@ my %args = (
         'Test::More'        => 0,
         'Test::Differences' => 0
     },
-    OBJECT    => 'runops.o DTrace.o',
+    OBJECT    => join( ' ', @obj, 'DTrace.o' ),
     EXE_FILES => ['dtperl'],
 
     dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
@@ -53,28 +62,36 @@ my %args = (
 
 WriteMakefile( %args );
 
-sub MY::postamble {
-    my $postamble = do { local $/; <DATA> };
+sub rule {
+    my ( $target, $dep, @steps ) = @_;
+    return "$target: $dep\n" . ( join "\n", map { "\t$_" } @steps );
+}
 
-    my %defn = (
-        dtrace => $dtrace,
-        ccopts => ccopts(),
-        ldopts => ldopts()
+sub MY::postamble {
+    chomp( my ( $ccopts, $ldopts ) = ( ccopts(), ldopts() ) );
+
+    my @mf = (
+        rule(
+            'plxsdtrace.h' => 'plxsdtrace.d',
+            "$dtrace -h -s plxsdtrace.d -o plxsdtrace.h"
+        ),
+        (
+            DTRACE_OBJ
+            ? rule(
+                'plxsdtrace.o' => 'plxsdtrace.d runops.o',
+                "$dtrace -G -s plxsdtrace.d runops.o -o plxsdtrace.o"
+              )
+            : ()
+        ),
+        rule(
+            'dtperl' => 'dtperl.o runops.o',
+            join( ' ',
+                "\$(LD) $ccopts -o dtperl $ldopts", @obj,
+                'dtperl.o' )
+        ),
     );
 
-    chomp for values %defn;
-
-    for ( $postamble ) {
-        s/^ +/\t/mg;
-        s/(%(\w+)%)/$defn{$2}||$1/ge;
-    }
+    ( my $postamble = join "\n\n", @mf ) =~ s/^ +/\t/mg;
 
     return $postamble;
 }
-
-__DATA__
-plxsdtrace.h: plxsdtrace.d
-    %dtrace% -h -s plxsdtrace.d -o plxsdtrace.h
-
-dtperl: dtperl.o runops.o
-    $(CC) %ccopts% -o dtperl %ldopts% dtperl.o runops.o

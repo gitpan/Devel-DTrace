@@ -52,6 +52,10 @@ C<Devel::DTrace> before you can connect to it with C<dtrace>.
 
 The C<dtperl> interpreter does not have this limitation.
 
+On Solaris C<dtperl> is statically linked and therefore probably not
+much use. Working out why I can't build a dynamic C<dtperl> is high on
+my todo list.
+
 =head2 Other Notes
 
 It's difficult to test the dtrace probes. To do so the tests would have
@@ -73,7 +77,7 @@ Extra, spurious trace output is generated on exit from an eval.
 =cut
 
 BEGIN {
-    our $VERSION = '0.05';
+    our $VERSION = '0.06';
     bootstrap Devel::DTrace $VERSION;
     _dtrace_hook_runops();
 }
