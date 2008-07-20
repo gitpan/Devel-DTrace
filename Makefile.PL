@@ -4,13 +4,9 @@ use ExtUtils::MakeMaker;
 use ExtUtils::Embed;
 use Config;
 
-require 5.008;
+require 5.008001;
 
 use constant IS_SOLARIS => ( $^O =~ /solaris/ );
-
-# Whether we need to have dtrace create an object file and link
-# against it.
-use constant DTRACE_OBJ => IS_SOLARIS;
 
 my @dtrace = qw(
   /usr/sbin/dtrace
@@ -44,12 +40,30 @@ if (
     exit 0;    # == NA test result
 }
 
-if ( $Config{usedtrace} ) {
-    print "Your Perl already supports DTrace natively.\n"
-      . "Will still build Devel::DTrace but you probably don't need it.\n";
+# Whether we need to have dtrace create an object file and link
+# against it.
+my $DTRACE_OBJ = 0;
+unless (
+      system "$dtrace -G -s plxsdtrace.d -o plxsdtrace.tmp "
+    . ">/dev/null 2>&1 "
+    . "&& rm plxsdtrace.tmp" ) {
+    $DTRACE_OBJ = 1;
 }
 
-my @obj = ( 'runops.o', ( DTRACE_OBJ ? ( 'plxsdtrace.o' ) : () ) );
+if ( $Config{usedtrace} ) {
+    print "Your Perl already supports DTrace natively.\n"
+      . "Will still build Devel::DTrace but you probably don't need it.\n\n";
+}
+
+if ( $] < 5.008008 ) {
+    print
+      "The dtperl instrumented Perl executable doesn't seem to work\n"
+      . "with Perls older than 5.8.8 (your $^X is $]).\n"
+      . "I'll build it but be aware that it will be untested and may\n"
+      . "be unusable. Sorry about that\n\n";
+}
+
+my @obj = ( 'runops.o', ( $DTRACE_OBJ ? ( 'plxsdtrace.o' ) : () ) );
 
 my %args = (
     ( MM->can( 'signature_target' ) ? ( SIGN => 1 ) : () ),
@@ -62,7 +76,8 @@ my %args = (
     PL_FILES      => {},
     PREREQ_PM     => {
         'Test::More'        => 0,
-        'Test::Differences' => 0
+        'Test::Differences' => 0,
+        'List::Util'        => 0,
     },
     OBJECT    => join( ' ', @obj, 'DTrace.o' ),
     EXE_FILES => ['dtperl'],
@@ -92,13 +107,13 @@ sub MY::postamble {
     my @mf = (
         rule(
             'plxsdtrace.h' => 'plxsdtrace.d',
-            "$dtrace -h -s plxsdtrace.d -o plxsdtrace.h"
+            "$dtrace \$(DTRACEFLAGS) -h -s plxsdtrace.d -o plxsdtrace.h"
         ),
         (
-            DTRACE_OBJ
+            $DTRACE_OBJ
             ? rule(
                 'plxsdtrace.o' => 'plxsdtrace.d runops.o',
-                "$dtrace -G -s plxsdtrace.d runops.o -o plxsdtrace.o"
+                "$dtrace \$(DTRACEFLAGS) -G -s plxsdtrace.d runops.o -o plxsdtrace.o"
               )
             : ()
         ),
