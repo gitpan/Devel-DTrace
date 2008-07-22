@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Devel-DTrace
-version:             0.09
+version:             0.10
 abstract:            Enable dtrace probes for subroutine entry, exit
 license:             perl
 author:              
