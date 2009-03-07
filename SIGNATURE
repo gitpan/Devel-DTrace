@@ -14,33 +14,33 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 87da63d3b57a2a0d2a89d191cd4114ecb0316cee Changes
+SHA1 27cb86d9d097925e86235b10dccf1c0aafa1b4d2 Changes
 SHA1 d514f33e77ab80e745a0a0b0804175bd5ee8e6fd DTrace.xs
 SHA1 6a724fcfa8764d08d867fb99901502ee274357df MANIFEST
-SHA1 c740d19ed233a03eba6e704e16aa9bebea9aae12 META.yml
-SHA1 a469b84b380ef6ec34e86062a6bf7cc73d8a9b9f Makefile.PL
-SHA1 1a2eea0b889857a4d3fb98c22a1e1d44e84a90dc README
+SHA1 68fc7bfb1c57ffbb800c92dd0b6a782ea188bf8b META.yml
+SHA1 f5d114e194753937797f2c8bf6e32bf880aab6dd Makefile.PL
+SHA1 9537e32075860bfd30d25b850e38abde3514ae95 README
 SHA1 b2f5809a83ea92c5e6cd7bb569d8443cd474d3da TODO
-SHA1 7fd45ee2aa5c8d594de95cc9aefcba03487c80cb dtperl.c
+SHA1 1d2b0eaee24049c5f44321300484d90e6ebd01ad dtperl.c
 SHA1 2bae70f589759f9a669ded418eeaa92093ef8821 examples/subs-tree.d
-SHA1 a08cbd99a7dc76e0b61e4ea7dab34a63a1d79df9 lib/Devel/DTrace.pm
+SHA1 7e02a4ea89ade63fe45ee47d2afaaaa2f83f8344 lib/Devel/DTrace.pm
 SHA1 935c1865ea87c4e4fca48b55af338aca2926d82e plxsdtrace.d
-SHA1 f43e3b75412bc9b39c507c7c45864be3b7ca3a50 runops-loop.h
-SHA1 09f493b8686d24b8fff99a2f0939f967d85d6239 runops.c
+SHA1 81376d76d5f3bf15a8dbc6449a4980e551bc275f runops-loop.h
+SHA1 824502a22526633bea463dd07047f583733a06fe runops.c
 SHA1 ff865ff9de63d75121c83a5576a0aff7f0e602e7 runops.h
-SHA1 1ed5cd8c96a7ffe7a6eead78edfe1e021b169063 t/000-load.t
-SHA1 abd8a265739839331bf5cea5f78c90f20f6398c7 t/devel-dtrace.t
-SHA1 da74d8786202d806ad857a76da7517102de72e80 t/scripts/dies.pl
-SHA1 6562793ffeeacf3d21d5888c177743298b3b0b90 t/scripts/eval.pl
-SHA1 cb172cdba380aa345e5bd0ea9ea1ce99d5c20167 t/scripts/fib.pl
+SHA1 68c9a96a049c4adb117810ab1dbabac209f24106 t/000-load.t
+SHA1 dc5676715d6d962328102c93cf3f9bda1a1f0cdf t/devel-dtrace.t
+SHA1 c343e55a563d92cfcb02ddd8bfc499202ff53e6c t/scripts/dies.pl
+SHA1 e69223f00a6c72b9aab49740fdadbc190e0d90f9 t/scripts/eval.pl
+SHA1 fd219ed6feca3ed44cb5117d80d5cf0725cd4cac t/scripts/fib.pl
 SHA1 53aa38fbd0961d6b293ff696542e1e04865cda08 t/scripts/fump.pl
-SHA1 c8501edaafff872f89178a1f5f41c97f1c726bd2 t/scripts/xs.pl
-SHA1 c513d4aca0ee487340cd4bdb6296ef0db183505a xt/author/pod-coverage.t
+SHA1 dbd5aaacfb155cf48523ad173d0f73d461978be0 t/scripts/xs.pl
+SHA1 56a729edd761387c12abadda78ed32b1cb0904fb xt/author/pod-coverage.t
 SHA1 0190346d7072d458c8a10a45c19f86db641dcc48 xt/author/pod.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.9 (Darwin)
 
-iEYEARECAAYFAkiFMcIACgkQwoknRJZQnCE/VwCdFaKLdEV0tA/HppF2YqFe2N8r
-V2QAoJ6sP3pILZFViA9LdQplc6WPZSyb
-=tpR/
+iEYEARECAAYFAkmy+XUACgkQwoknRJZQnCGjMACeK1BLTmJQP62EHQ7ZQbkZ7qm/
+0K4AoJjHrw+k20pwv3v9qfXcM+hYhniR
+=aQmn
 -----END PGP SIGNATURE-----
